@@ -9,11 +9,12 @@ export class GenericDatasource {
     this.q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.userLogged = this.backendSrv.contextSrv.user;
     this.withCredentials = instanceSettings.withCredentials;
-    this.headers = {'Content-Type': 'application/json'};
+    this.headers = {'Content-Type': 'application/json'};    
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
       this.headers['Authorization'] = instanceSettings.basicAuth;
-    }
+    }    
   }
 
   query(options) {
@@ -28,7 +29,7 @@ export class GenericDatasource {
       query.adhocFilters = this.templateSrv.getAdhocFilters(this.name);
     } else {
       query.adhocFilters = [];
-    }
+    }    
 
     return this.doRequest({
       url: this.url + '/query',
@@ -96,7 +97,7 @@ export class GenericDatasource {
 
   doRequest(options) {
     options.withCredentials = this.withCredentials;
-    options.headers = this.headers;
+    options.headers = this.headers;    
 
     return this.backendSrv.datasourceRequest(options);
   }
@@ -117,6 +118,8 @@ export class GenericDatasource {
     });
 
     options.targets = targets;
+
+    options.user = this.userLogged;
 
     return options;
   }

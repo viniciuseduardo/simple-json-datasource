@@ -25,6 +25,7 @@ var GenericDatasource = exports.GenericDatasource = function () {
     this.q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.userLogged = this.backendSrv.contextSrv.user;
     this.withCredentials = instanceSettings.withCredentials;
     this.headers = { 'Content-Type': 'application/json' };
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
@@ -145,6 +146,8 @@ var GenericDatasource = exports.GenericDatasource = function () {
       });
 
       options.targets = targets;
+
+      options.user = this.userLogged;
 
       return options;
     }

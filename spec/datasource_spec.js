@@ -6,7 +6,7 @@ describe('GenericDatasource', function() {
 
     beforeEach(function() {
         ctx.$q = Q;
-        ctx.backendSrv = {};
+        ctx.backendSrv = { contextSrv: { user: {} } };
         ctx.templateSrv = {};
         ctx.ds = new Datasource({}, ctx.$q, ctx.backendSrv, ctx.templateSrv);
     });
